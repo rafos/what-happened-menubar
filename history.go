@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"time"
 )
@@ -28,7 +29,7 @@ func getAllEventsFrom(date time.Time) (*HistoryResponse, error) {
 	urlWithDate := fmt.Sprintf("%s/%s", url, date.Format("01/02"))
 	resp, err := http.Get(urlWithDate)
 	if err != nil {
-		fmt.Println("Error while fetching data", err)
+		log.Println("Error while fetching data", err)
 		return nil, err
 	}
 	defer func(Body io.ReadCloser) {
@@ -37,14 +38,14 @@ func getAllEventsFrom(date time.Time) (*HistoryResponse, error) {
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("Error while reading response:", err)
+		log.Println("Error while reading response:", err)
 		return nil, err
 	}
 
 	var history *HistoryResponse
 	err = json.Unmarshal(body, &history)
 	if err != nil {
-		fmt.Println("Error while parsing JSON:", err)
+		log.Println("Error while parsing JSON:", err)
 		return nil, err
 	}
 

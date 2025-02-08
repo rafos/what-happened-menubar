@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/getlantern/systray"
 	"github.com/skratchdot/open-golang/open"
-	"log/slog"
+	"log"
 	"time"
 )
 
@@ -34,7 +34,7 @@ func newApplication() *application {
 }
 
 func (a *application) start() {
-	slog.Info("Starting application " + fullTitle)
+	log.Println("Starting application " + fullTitle)
 	systray.Run(onReady, nil)
 }
 
@@ -48,7 +48,7 @@ func onReady() {
 	for {
 		select {
 		case <-refreshItem.ClickedCh:
-			slog.Info("Refreshing")
+			log.Println("Refreshing")
 			go func() {
 				for _, eventsItem := range eventsItems {
 					eventsItem.Hide()
@@ -85,7 +85,7 @@ func onReady() {
 			}
 
 		case <-quitItem.ClickedCh:
-			slog.Info("Quitting")
+			log.Println("Quitting")
 			systray.Quit()
 			return
 		}
